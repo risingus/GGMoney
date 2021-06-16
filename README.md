@@ -1,2 +1,2 @@
 # GGMoney
-React project to manage finances
+React.JS project to manage finances
