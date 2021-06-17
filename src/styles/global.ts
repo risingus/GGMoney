@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
   :root{
@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     --red: #E52E4d;
     --blue: #5429CC;
     --green: #33cc95;
-    
+
 
     --blue-light: #6933ff;
 

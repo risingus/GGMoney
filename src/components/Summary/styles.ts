@@ -26,13 +26,9 @@ export const Container = styled.div`
       font-weight: 500;
     }
 
-   
     &.highligh-background {
       background: var(--green);
-      color: #FFFFFF;
-      
+      color: #ffffff;
     }
-
   }
-
 `;
