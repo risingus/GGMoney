@@ -24,7 +24,7 @@
         "mocha": true,
         "es6": true
       },
-      "parser": "babel-eslint",
+      "parser": "@typescript-eslint/parser",
       "rules": {
         "prefer-destructuring": [0, {
           "array": false,
