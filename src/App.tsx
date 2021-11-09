@@ -21,13 +21,25 @@ function App() {
 
   return (
     <TransactionsProvider>
-      <Header onOpenNewTransactionModal={handleOpenTransactionModal} />
-      <Dashboard />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100vw',
+        }}
+      >
+        <Header onOpenNewTransactionModal={handleOpenTransactionModal} />
+        <Dashboard />
 
-      <NewTransactionModal
-        isOpen={isNewTransactionModalOpen}
-        onRequestClose={handleCloseTransactionModal}
-      />
+        <NewTransactionModal
+          isOpen={isNewTransactionModalOpen}
+          onRequestClose={handleCloseTransactionModal}
+        />
+      </div>
+
       <GlobalStyle />
     </TransactionsProvider>
   );

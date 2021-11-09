@@ -4,7 +4,11 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  margin-top: -9rem;
+  margin: -9rem 0 0 0;
+
+  @media (max-width: 680px) {
+    grid-template-columns: 1fr;
+  }
 
   div {
     background: var(--shape);

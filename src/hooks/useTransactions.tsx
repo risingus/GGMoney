@@ -5,15 +5,14 @@ import {
   ReactNode,
   useContext,
 } from 'react';
-import { api } from '../services/api';
 
 interface Transaction {
-  id: number;
-  title: string;
-  amount: number;
-  type: string;
-  category: string;
-  createdAt: string;
+  id: any;
+  title: any;
+  amount: any;
+  type: any;
+  category: any;
+  createdAt: any;
 }
 
 type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
@@ -25,6 +24,7 @@ interface TransactionsProviderProps {
 interface TransactionsContextData {
   transactions: Transaction[];
   createTransaction: (transaction: TransactionInput) => Promise<void>;
+  deleteTransaction: any;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -35,23 +35,45 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
   useEffect(() => {
-    api
-      .get('transactions')
-      .then((response) => setTransactions(response.data.transactions));
+    if (localStorage.getItem('transactions') === null) {
+      setTransactions([]);
+      return;
+    }
+
+    const localTransactions = JSON.parse(
+      localStorage.getItem('transactions') ?? ''
+    );
+    setTransactions(localTransactions);
   }, []);
 
   async function createTransaction(transactionInput: TransactionInput) {
-    const response = await api.post('/transactions', {
+    const transaction = {
       ...transactionInput,
       createdAt: new Date(),
-    });
-    const { transaction } = response.data;
+      id: transactions.length + 1,
+    };
+
+    const allTransactions = [...transactions, transaction];
+
+    localStorage.setItem('transactions', JSON.stringify(allTransactions));
 
     setTransactions([...transactions, transaction]);
   }
 
+  function deleteTransaction(transaction: any) {
+    const deletedId = transaction.id;
+    const filteredTransactions = transactions.filter(
+      (obj) => obj.id !== deletedId
+    );
+    localStorage.setItem('transactions', JSON.stringify(filteredTransactions));
+
+    setTransactions(filteredTransactions);
+  }
+
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction, deleteTransaction }}
+    >
       {children}
     </TransactionsContext.Provider>
   );

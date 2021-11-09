@@ -2,15 +2,21 @@ import styled from 'styled-components';
 
 export const Container = styled.header`
   background: var(--blue);
+  width: 100vw;
 `;
 
 export const Content = styled.div`
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 2rem 1rem 12rem;
+  padding: 2rem 1rem 8rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 380px) {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    flex-direction: column;
+    align-items: center;
+  }
 
   button {
     font-size: 1rem;
