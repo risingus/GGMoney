@@ -1,5 +1,5 @@
- <img src="https://github.com/risingus/GGMoney/blob/master/public/ggMoneyIntro.jpg" alt="project preview" width=40%>
-<img src="https://github.com/risingus/GGMoney/blob/master/public/ggMoneyAdd.png" alt="project preview" width=40%>
+ <img src="https://github.com/risingus/GGMoney/blob/master/public/ggMoneyIntro.jpg" alt="project preview" width=60%>
+<img src="https://github.com/risingus/GGMoney/blob/master/public/ggMoneyAdd.png" alt="project preview" width=60%>
 
 
  <h1>💻 Project: GG Money </h1>
