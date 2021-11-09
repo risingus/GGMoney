@@ -18,10 +18,16 @@ export const Container = styled.div`
       border: 0;
       background: var(--shape);
       color: var(--text-body);
-      border-radius: 0.25rem;
 
       &:first-child {
         color: var(--text-title);
+        border-bottom-left-radius: 0.4rem;
+        border-top-left-radius: 0.4rem;
+      }
+
+      &:last-child {
+        border-top-right-radius: 0.4rem;
+        border-bottom-right-radius: 0.4rem;
       }
 
       &.deposit {
@@ -46,6 +52,11 @@ export const Container = styled.div`
           td:nth-child(1),
           td:nth-child(3) {
             display: none;
+          }
+
+          td:nth-child(2) {
+            border-bottom-left-radius: 0.4rem;
+            border-top-left-radius: 0.4rem;
           }
         }
       }
