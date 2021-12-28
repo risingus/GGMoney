@@ -1,18 +1,20 @@
+import { TiDeleteOutline } from 'react-icons/ti';
 import { Container } from './styles';
 import { useTransactions } from '../../hooks/useTransactions';
 
 export function TransactionTable() {
-  const { transactions } = useTransactions();
+  const { transactions, deleteTransaction } = useTransactions();
 
   return (
     <Container>
       <table>
         <thead>
-          <tr>
+          <tr className="columns">
             <th>Título</th>
             <th>Valor</th>
             <th>Categoria</th>
             <th>Data</th>
+            <th>Ações</th>
           </tr>
         </thead>
 
@@ -31,6 +33,15 @@ export function TransactionTable() {
                 {new Intl.DateTimeFormat('pt-BR').format(
                   new Date(transaction.createdAt)
                 )}
+              </td>
+              <td>
+                <button
+                  className="deleteButton"
+                  type="button"
+                  onClick={() => deleteTransaction(transaction)}
+                >
+                  <TiDeleteOutline className="iconDelete" />
+                </button>
               </td>
             </tr>
           ))}
