@@ -1,9 +1,29 @@
 import { TiDeleteOutline } from 'react-icons/ti';
+import { MdModeEditOutline } from 'react-icons/md';
 import { Container } from './styles';
 import { useTransactions } from '../../hooks/useTransactions';
 
-export function TransactionTable() {
-  const { transactions, deleteTransaction } = useTransactions();
+interface Transaction {
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: Date | string;
+}
+interface TransactionTrableProps {
+  openEditTransaction: () => void;
+}
+
+export function TransactionTable({
+  openEditTransaction,
+}: TransactionTrableProps) {
+  const { transactions, deleteTransaction, setToEditTransaction } = useTransactions();
+
+  function handleOpenEdit(transaction: Transaction) {
+    setToEditTransaction(transaction);
+    openEditTransaction();
+  }
 
   return (
     <Container>
@@ -35,13 +55,23 @@ export function TransactionTable() {
                 )}
               </td>
               <td>
-                <button
-                  className="deleteButton"
-                  type="button"
-                  onClick={() => deleteTransaction(transaction)}
-                >
-                  <TiDeleteOutline className="iconDelete" />
-                </button>
+                <div className="actionsButtonsContainer">
+                  <button
+                    className="tableActionButton"
+                    type="button"
+                    onClick={() => deleteTransaction(transaction)}
+                  >
+                    <TiDeleteOutline className="iconDelete" />
+                  </button>
+
+                  <button
+                    className="tableActionButton"
+                    type="button"
+                    onClick={() => handleOpenEdit(transaction)}
+                  >
+                    <MdModeEditOutline className="iconEdit" />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

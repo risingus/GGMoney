@@ -7,12 +7,12 @@ import {
 } from 'react';
 
 interface Transaction {
-  id: any;
-  title: any;
-  amount: any;
-  type: any;
-  category: any;
-  createdAt: any;
+  id: number;
+  title: string;
+  amount: number;
+  type: string;
+  category: string;
+  createdAt: Date | string;
 }
 
 type TransactionInput = Omit<Transaction, 'id' | 'createdAt'>;
@@ -23,8 +23,11 @@ interface TransactionsProviderProps {
 
 interface TransactionsContextData {
   transactions: Transaction[];
-  createTransaction: (transaction: TransactionInput) => Promise<void>;
-  deleteTransaction: any;
+  createTransaction: (transaction: TransactionInput) => void;
+  deleteTransaction: (transaction: Transaction) => void;
+  editTransaction: (transaction: Transaction) => void;
+  toEditTransaction: Transaction;
+  setToEditTransaction: (transaction: Transaction) => void;
 }
 
 const TransactionsContext = createContext<TransactionsContextData>(
@@ -33,6 +36,9 @@ const TransactionsContext = createContext<TransactionsContextData>(
 
 export function TransactionsProvider({ children }: TransactionsProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [toEditTransaction, setToEditTransaction] = useState<Transaction>(
+    {} as Transaction
+  );
 
   useEffect(() => {
     if (localStorage.getItem('transactions') === null) {
@@ -46,7 +52,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(localTransactions);
   }, []);
 
-  async function createTransaction(transactionInput: TransactionInput) {
+  function createTransaction(transactionInput: TransactionInput) {
     const transaction = {
       ...transactionInput,
       createdAt: new Date(),
@@ -60,7 +66,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions([...transactions, transaction]);
   }
 
-  function deleteTransaction(transaction: any) {
+  function deleteTransaction(transaction: Transaction) {
     const deletedId = transaction.id;
     const filteredTransactions = transactions.filter(
       (obj) => obj.id !== deletedId
@@ -70,9 +76,41 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(filteredTransactions);
   }
 
+  function editTransaction(transaction: Transaction) {
+    if (localStorage.getItem('transactions') === null) return;
+    if (transactions.length < 1) return;
+    if (!toEditTransaction) return;
+    if (!transactions.find((exchange) => exchange.id === transaction.id)) return;
+    const otherTransactions = transactions.filter(
+      (exchange) => exchange.id !== transaction.id
+    );
+    const editedTransaction = {
+      id: transaction.id,
+      title: transaction.title,
+      amount: transaction.amount,
+      type: transaction.type,
+      category: transaction.category,
+      createdAt: transaction.createdAt,
+    };
+
+    const allTransactions = [...otherTransactions, editedTransaction];
+
+    localStorage.setItem('transactions', JSON.stringify(allTransactions));
+
+    setTransactions(allTransactions);
+    setToEditTransaction({} as Transaction);
+  }
+
   return (
     <TransactionsContext.Provider
-      value={{ transactions, createTransaction, deleteTransaction }}
+      value={{
+        transactions,
+        createTransaction,
+        deleteTransaction,
+        editTransaction,
+        toEditTransaction,
+        setToEditTransaction,
+      }}
     >
       {children}
     </TransactionsContext.Provider>

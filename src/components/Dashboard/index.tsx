@@ -2,11 +2,15 @@ import { Summary } from '../Summary';
 import { TransactionTable } from '../TransactionsTable';
 import { Container } from './styles';
 
-export function Dashboard() {
+interface DashBoardProps {
+  handleOpenTransactionModal: () => void;
+}
+
+export function Dashboard({ handleOpenTransactionModal }: DashBoardProps) {
   return (
     <Container>
       <Summary />
-      <TransactionTable />
+      <TransactionTable openEditTransaction={handleOpenTransactionModal} />
     </Container>
   );
 }
