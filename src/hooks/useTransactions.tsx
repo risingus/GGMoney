@@ -79,7 +79,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   function editTransaction(transaction: Transaction) {
     if (localStorage.getItem('transactions') === null) return;
     if (transactions.length < 1) return;
-    if (!toEditTransaction) return;
+    if (!toEditTransaction?.id) return;
     if (!transactions.find((exchange) => exchange.id === transaction.id)) return;
     const otherTransactions = transactions.filter(
       (exchange) => exchange.id !== transaction.id
