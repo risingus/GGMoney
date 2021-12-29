@@ -20,6 +20,8 @@ export function TransactionTable({
 }: TransactionTrableProps) {
   const { transactions, deleteTransaction, setToEditTransaction } = useTransactions();
 
+  console.log(transactions);
+
   function handleOpenEdit(transaction: Transaction) {
     setToEditTransaction(transaction);
     openEditTransaction();

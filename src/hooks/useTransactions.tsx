@@ -4,6 +4,7 @@ import {
   useState,
   ReactNode,
   useContext,
+  useMemo,
 } from 'react';
 
 interface Transaction {
@@ -56,7 +57,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     const transaction = {
       ...transactionInput,
       createdAt: new Date(),
-      id: transactions.length + 1,
+      id: (new Date()).getTime(),
     };
 
     const allTransactions = [...transactions, transaction];
@@ -69,7 +70,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
   function deleteTransaction(transaction: Transaction) {
     const deletedId = transaction.id;
     const filteredTransactions = transactions.filter(
-      (obj) => obj.id !== deletedId
+      (obj: Transaction) => obj.id !== deletedId
     );
     localStorage.setItem('transactions', JSON.stringify(filteredTransactions));
 
@@ -80,7 +81,7 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     if (localStorage.getItem('transactions') === null) return;
     if (transactions.length < 1) return;
     if (!toEditTransaction?.id) return;
-    if (!transactions.find((exchange) => exchange.id === transaction.id)) return;
+    if (!transactions.find((exchange: Transaction) => exchange.id === transaction.id)) return;
     const otherTransactions = transactions.filter(
       (exchange) => exchange.id !== transaction.id
     );
@@ -100,17 +101,18 @@ export function TransactionsProvider({ children }: TransactionsProviderProps) {
     setTransactions(allTransactions);
     setToEditTransaction({} as Transaction);
   }
+  const contextProps = useMemo(() => ({
+    transactions,
+    createTransaction,
+    deleteTransaction,
+    editTransaction,
+    toEditTransaction,
+    setToEditTransaction
+  }), [transactions, toEditTransaction]);
 
   return (
     <TransactionsContext.Provider
-      value={{
-        transactions,
-        createTransaction,
-        deleteTransaction,
-        editTransaction,
-        toEditTransaction,
-        setToEditTransaction,
-      }}
+      value={contextProps}
     >
       {children}
     </TransactionsContext.Provider>
