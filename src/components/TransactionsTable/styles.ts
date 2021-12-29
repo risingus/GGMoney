@@ -79,25 +79,36 @@ export const Container = styled.div`
     }
   }
 
-  .deleteButton {
+  .actionsButtonsContainer {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    border: none;
-    border-radius: 0.4rem;
-    padding: 0.5rem 1rem;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 0.3rem;
 
-    .iconDelete {
-      color: var(--red);
-      font-size: 2rem;
-    }
-
-    :hover {
-      background: rgba(0, 0, 0, 0.1);
+    .tableActionButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      border-radius: 0.4rem;
+      padding: 0.5rem;
 
       .iconDelete {
-        color: rgba(300, 46, 77, 1);
+        color: var(--red);
+        font-size: 1.2rem;
+      }
+
+      .iconEdit {
+        font-size: 1.2rem;
+      }
+
+      :hover {
+        background: rgba(0, 0, 0, 0.1);
+
+        .iconDelete {
+          color: rgba(300, 46, 77, 1);
+        }
       }
     }
   }

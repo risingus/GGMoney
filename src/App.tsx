@@ -32,7 +32,7 @@ function App() {
         }}
       >
         <Header onOpenNewTransactionModal={handleOpenTransactionModal} />
-        <Dashboard />
+        <Dashboard handleOpenTransactionModal={handleOpenTransactionModal} />
 
         <NewTransactionModal
           isOpen={isNewTransactionModalOpen}
